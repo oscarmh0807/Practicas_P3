@@ -11,8 +11,11 @@ public:
 
 bool validarEmail(const std::string& email) {
     size_t arroba = email.find('@');
+    if (arroba == std::string::npos || arroba == 0) return false;
+    if (email.find('@', arroba + 1) != std::string::npos) return false;
     size_t punto = email.rfind('.');
-    return (arroba != std::string::npos && punto != std::string::npos && arroba < punto && arroba > 0);
+    if (punto == std::string::npos || punto <= arroba + 1) return false;
+    return punto + 2 < email.size();
 }
 
 int main() {
@@ -25,27 +28,26 @@ int main() {
     std::cout << "===== Validacion de Datos con Excepciones =====\n\n";
 
     while (!edadValida) {
-        try {
-            std::cout << "Ingrese su edad: ";
-            std::cin >> entradaEdad;
+    try {
+        std::cout << "Ingrese su edad: ";
+        std::cin >> entradaEdad;
 
-            for (char c : entradaEdad) {
-                if (!std::isdigit(c)) {
-                    throw std::invalid_argument("La edad debe ser un numero entero valido sin letras.");
-                }
-            }
-
-            edad = std::stoi(entradaEdad);
-            if (edad < 0 || edad > 130) {
-                throw std::out_of_range("La edad debe estar en un rango realista de 0 a 130 anios.");
-            }
-
-            edadValida = true;
-
-        } catch (const std::exception& e) {
-            std::cerr << "[Error de Edad]: " << e.what() << " Intente de nuevo.\n\n";
+        size_t pos = 0;
+        edad = std::stoi(entradaEdad, &pos);
+        if (pos != entradaEdad.size()) {
+            throw std::invalid_argument("caracteres no numericos");
         }
+        if (edad < 0 || edad > 130) {
+            throw std::out_of_range("fuera de rango");
+        }
+        edadValida = true;
+
+    } catch (const std::invalid_argument&) {
+        std::cerr << "[Error de Edad]: Debe ser un numero entero, sin letras ni simbolos. Intente de nuevo.\n\n";
+    } catch (const std::out_of_range&) {
+        std::cerr << "[Error de Edad]: Debe estar entre 0 y 130 anios. Intente de nuevo.\n\n";
     }
+}
 
     while (!emailValido) {
         try {
