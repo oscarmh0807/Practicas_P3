@@ -58,7 +58,8 @@ int main() {
             std::cout << "[Exito] Registros insertados por primera vez.\n";
         }
     } else {
-        std::cout << "[Aviso] La base de datos ya contenía registros (" << totalRegistros << "). Se omite la insercion para evitar duplicados.\n";
+        std::cout << "[Aviso] La base de datos ya contenia registros (" << totalRegistros << ")."
+         " Se omite la insercion para evitar duplicados.\n";
     }
 
     std::cout << "\n--- Consulta de Productos en la BD ---\n";
