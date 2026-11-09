@@ -36,8 +36,8 @@ int main() {
             }
 
             edad = std::stoi(entradaEdad);
-            if (edad < 0 || edad > 120) {
-                throw std::out_of_range("La edad debe estar en un rango realista de 0 a 120 anos.");
+            if (edad < 0 || edad > 130) {
+                throw std::out_of_range("La edad debe estar en un rango realista de 0 a 130 anios.");
             }
 
             edadValida = true;
