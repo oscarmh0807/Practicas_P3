@@ -43,7 +43,14 @@ int main() {
 
     int totalRegistros = 0;
     std::string sqlVerificar = "SELECT COUNT(*) FROM productos;";
-    sqlite3_exec(db, sqlVerificar.c_str(), callbackConteo, &totalRegistros, &zErrMsg);
+
+    rc = sqlite3_exec(db, sqlVerificar.c_str(), callbackConteo, &totalRegistros, &zErrMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Error al contar registros: " << zErrMsg << "\n";
+        sqlite3_free(zErrMsg);
+        sqlite3_close(db);
+        return 1;
+    }
 
     if (totalRegistros == 0) {
         const char* sqlInsertar = 
