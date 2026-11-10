@@ -22,11 +22,17 @@ int main() {
         "sesion_activa": true
     })";
 
-    json objetoParseado = json::parse(entradaJson);
-    std::cout << "--- Datos extraidos del objeto parseado ---\n";
-    std::cout << "Usuario: " << objetoParseado["usuario"].get<std::string>() << "\n";
-    std::cout << "Rol: " << objetoParseado["rol"].get<std::string>() << "\n";
-    std::cout << "Sesion Activa: " << (objetoParseado["sesion_activa"].get<bool>() ? "Si" : "No") << "\n";
-
+        try {
+        json objetoParseado = json::parse(entradaJson);
+        std::cout << "--- Datos extraidos del objeto parseado ---\n";
+        std::cout << "Usuario: " << objetoParseado["usuario"].get<std::string>() << "\n";
+        std::cout << "Rol: " << objetoParseado["rol"].get<std::string>() << "\n";
+        std::cout << "Sesion Activa: " << (objetoParseado["sesion_activa"].get<bool>() ? "Si" : "No") << "\n";
+    } catch (const json::parse_error& e) {
+        std::cerr << "[Error JSON] Formato invalido: " << e.what() << "\n";
+    } catch (const json::type_error& e) {
+        std::cerr << "[Error JSON] Tipo de dato inesperado: " << e.what() << "\n";
+    }
+    
     return 0;
 }
