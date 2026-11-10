@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
-#include <cctype>
 
 class InvalidEmailException : public std::runtime_error {
 public:
